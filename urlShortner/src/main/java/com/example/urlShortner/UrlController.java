@@ -13,9 +13,11 @@ public class UrlController {
     }
 
     @PostMapping
-    public Url createShortUrl(@RequestBody CreateUrlRequest request)
+    public CreateUrlResponse createShortUrl(@RequestBody CreateUrlRequest request)
     {
-        return urlService.createShortUrl(request.getUrl());
+        Url url = urlService.createShortUrl(request.getUrl());
+        String redirectUrl = "http://localhost:8080/api/url/" + url.getShortKey();
+        return new CreateUrlResponse(redirectUrl);
     }
     @GetMapping("/{shortKey}")
     public ResponseEntity<?> getLongUrl(@PathVariable String shortKey) {
